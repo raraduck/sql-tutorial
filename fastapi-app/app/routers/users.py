@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from app import crud, schemas, database
 
-router =APIRouter(prefix="/users", tags=["users"])
+router=APIRouter(prefix="/users", tags=["users"])
 
 @router.post("/", response_model=schemas.UserResponse)
 def create_user(user: schemas.UserCreate, db: Session = Depends(database.get_db)):
