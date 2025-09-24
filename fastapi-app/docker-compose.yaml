@@ -40,8 +40,8 @@ services:
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
   
-  networks:
-    my_network:
+networks:
+  my_network:
 
-  volumes:
-    postgres_data:
+volumes:
+  postgres_data:
