@@ -1,0 +1,67 @@
+{
+    "family": "my-app-task",
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "networkMode": "awsvpc",
+    "cpu": "1024",
+    "memory": "2048",
+    "executionRoleArn": "arn:aws:iam::<AWS_ACCOUNT_ID>:role/ecsTaskExecutionRole",
+    "containerDefinitions": [
+        {
+            "name": "fastapi-container",
+            "image": "<AWS_ACCOUNT_ID>.dkr.ecr.us-east-2.amazonaws.com/ecs-test/my-fastapi-repo:latest",
+            "memory": 512,
+            "cpu": 256,
+            "essential": true,
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/my-app-task",
+                    "awslogs-region": "us-east-2",
+                    "awslogs-stream-prefix": "ecs-test"
+                }
+            },
+            "environment": [
+                {
+                    "name": "DATABASE_URL",
+                    "value": "postgresql://<postgres>:<password>@<RDS_URL>:5432/postgres"
+                }            
+            ],
+            "portMappings": [
+                {
+                    "containerPort": 8080,
+                    "protocol": "tcp"
+                }
+            ]
+        },
+        {
+            "name": "nginx-container",
+            "image": "<AWS_ACCOUNT_ID>.dkr.ecr.us-east-2.amazonaws.com/ecs-test/my-nginx-repo:latest",
+            "memory": 512,
+            "cpu": 256,
+            "essential": true,
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/my-app-task",
+                    "awslogs-region": "us-east-2",
+                    "awslogs-stream-prefix": "ecs-test"
+                }
+            },
+            "portMappings": [
+                {
+                    "containerPort": 80,
+                    "protocol": "tcp"
+                }
+            ],
+            "dependsOn": [
+                {
+                    "containerName": "fastapi-container",
+                    "condition": "START"
+                }
+            ]
+        }
+
+    ]
+}
