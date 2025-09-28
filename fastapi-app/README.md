@@ -50,7 +50,7 @@ docker push <AWS_Account_ID>.dkr.ecr.us-east-2.amazonaws.com/ecs-test/my-nginx-r
 - check connection with DBeaver
 
 ## 5. Create AWS ECS(Elastic Container Service) Cluster 
-### 5.1. create log group in Cloud Watch with name [/ecs/my-ecs-task]
+### 5.1. create log group in Cloud Watch with name [/ecs/my-app-task]
 ### 5.2. create ECS Cluster using CLI
 ```
 aws ecs create-cluster --cluster-name my-ecs-cluster
