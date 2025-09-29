@@ -8,6 +8,9 @@ CREATE TABLE mart.car_member (
 	addr varchar(50),
 	join_date varchar(50)
 );
+ALTER TABLE mart.car_member
+ALTER COLUMN join_date TYPE date
+USING join_date::date;
 
 DROP TABLE IF EXISTS mart.car_store;
 CREATE TABLE mart.car_store (
@@ -22,6 +25,9 @@ CREATE TABLE mart.car_order (
 	order_date varchar(50),
 	store_cd int4 REFERENCES mart.car_store(store_cd)
 );
+ALTER TABLE mart.car_order
+ALTER COLUMN order_date TYPE date
+USING order_date::date;
 
 DROP TABLE IF EXISTS mart.car_product;
 CREATE TABLE mart.car_product (
@@ -64,3 +70,8 @@ LEFT JOIN mart."car_member" E      ON A.mem_no   = E.mem_no;
 
 -- 결과 조회
 SELECT * FROM mart.car_mart;
+
+select * from mart.car_store where store_addr like 'g%';
+SELECT *
+FROM mart.car_order
+WHERE order_date BETWEEN '2020-01-01' AND '2020-02-29';
