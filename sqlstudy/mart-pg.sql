@@ -2,7 +2,8 @@ CREATE SCHEMA IF NOT EXISTS mart;
 
 DROP TABLE IF EXISTS mart.car_member;
 CREATE TABLE mart.car_member (
-	mem_no int4 PRIMARY KEY,
+	-- mem_no int4 PRIMARY KEY,
+    mem_no int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 	gender varchar(50),
 	age int4,
 	addr varchar(50),

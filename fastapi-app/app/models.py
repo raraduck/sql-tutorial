@@ -13,7 +13,8 @@ class CarMember(Base):
     __tablename__ = "car_member"
     __table_args__ = {"schema": "mart"}
 
-    mem_no = Column(Integer, primary_key=True, index=True)
+    # mem_no = Column(Integer, primary_key=True, index=True)
+    mem_no = Column(Integer, primary_key=True, index=True, autoincrement=True)
     gender = Column(String(50))
     age = Column(Integer)
     addr = Column(String(50))

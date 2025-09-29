@@ -21,3 +21,15 @@ def create_member(db: Session, member: schemas.CarMemberCreate):
     db.commit()
     db.refresh(db_member)
     return db_member
+
+def get_stores(db: Session):
+    return db.query(models.CarStore).all()
+
+def get_products(db: Session):
+    return db.query(models.CarProduct).all()
+
+def get_orders(db: Session):
+    return db.query(models.CarOrder).all()
+
+def get_orderdetails(db: Session):
+    return db.query(models.CarOrderDetail).all()
