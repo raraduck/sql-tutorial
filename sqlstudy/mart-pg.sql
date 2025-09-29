@@ -1,0 +1,66 @@
+CREATE SCHEMA IF NOT EXISTS mart;
+
+DROP TABLE IF EXISTS mart.car_member;
+CREATE TABLE mart.car_member (
+	mem_no int4 PRIMARY KEY,
+	gender varchar(50),
+	age int4,
+	addr varchar(50),
+	join_date varchar(50)
+);
+
+DROP TABLE IF EXISTS mart.car_store;
+CREATE TABLE mart.car_store (
+	store_cd int4 PRIMARY KEY,
+	store_addr varchar(50)
+);
+
+DROP TABLE IF EXISTS mart.car_order;
+CREATE TABLE mart.car_order (
+	order_no int4 PRIMARY KEY,
+	mem_no int4 REFERENCES mart.car_member(mem_no),
+	order_date varchar(50),
+	store_cd int4 REFERENCES mart.car_store(store_cd)
+);
+
+DROP TABLE IF EXISTS mart.car_product;
+CREATE TABLE mart.car_product (
+	prod_cd int4 PRIMARY KEY,
+	brand varchar(50),
+	"type" varchar(50),
+	model varchar(50),
+	price int8
+);
+
+DROP TABLE IF EXISTS mart.car_orderdetail;
+CREATE TABLE mart.car_orderdetail (
+	order_no int4 REFERENCES mart.car_order(order_no),
+	prod_cd  int4 REFERENCES mart.car_product(prod_cd),
+	quantity int4,
+	PRIMARY KEY (order_no, prod_cd)
+);
+
+DROP TABLE IF EXISTS mart.car_mart;
+CREATE TABLE mart."car_mart" AS
+SELECT  A.*,
+        B.prod_cd,
+        B.quantity,
+        D.price,
+        B.quantity * D.price AS sales_amt,
+--        (B.quantity::numeric) * (D.price::numeric) AS sales_amt,
+--        B.quantity::numeric * REPLACE(D.price, ',', '')::numeric AS sales_amt,
+        C.store_addr,
+        D.brand,
+        D.model,
+        E.gender,
+        E.age,
+        E.addr,
+        E.join_date
+FROM    mart."car_order" A
+LEFT JOIN mart."car_orderdetail" B ON A.order_no = B.order_no
+LEFT JOIN mart."car_store" C       ON A.store_cd = C.store_cd
+LEFT JOIN mart."car_product" D     ON B.prod_cd  = D.prod_cd
+LEFT JOIN mart."car_member" E      ON A.mem_no   = E.mem_no;
+
+-- 결과 조회
+SELECT * FROM mart.car_mart;
