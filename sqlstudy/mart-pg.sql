@@ -86,6 +86,8 @@ LEFT JOIN mart."car_member" E      ON A.mem_no   = E.mem_no;
 SELECT * FROM mart.car_mart;
 
 select * from mart.car_store where store_addr like 'g%';
+
 SELECT *
 FROM mart.car_order
 WHERE order_date BETWEEN '2020-01-01' AND '2020-02-29';
+
