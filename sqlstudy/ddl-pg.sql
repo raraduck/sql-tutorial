@@ -112,3 +112,24 @@ SELECT
 FROM mart.car_mart;
 
 SELECT mem_no, order_no, quantity, price, sales_amt, ageband FROM profile_base LIMIT 5;
+
+-- GROUP
+-- 성별 구매자 분포
+SELECT gender, COUNT(mem_no) AS tot_mem FROM profile_base GROUP BY gender;
+SELECT gender, COUNT(DISTINCT mem_no) AS tot_mem FROM profile_base GROUP BY gender;
+
+-- 연령대별 구매자 분포
+SELECT ageband, COUNT(DISTINCT mem_no) AS tot_mem FROM profile_base GROUP BY ageband;
+
+-- 성별 및 연령대별 구매자 분포
+SELECT gender, ageband, COUNT(DISTINCT mem_no) AS tot_mem FROM profile_base GROUP BY gender, ageband ORDER BY 1;
+
+-- 성별 및 연령대별 구매자 분포(+연도별)
+SELECT  gender
+        ,ageband
+        ,COUNT(DISTINCT CASE WHEN DATE_PART('year', join_date) = 2020 THEN mem_no END) AS tot_mem_2020
+        ,COUNT(DISTINCT CASE WHEN DATE_PART('year', join_date) = 2021 THEN mem_no END) AS tot_mem_2021
+FROM profile_base
+GROUP BY
+    gender, ageband
+ORDER BY 1;
