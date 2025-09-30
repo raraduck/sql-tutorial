@@ -4,7 +4,7 @@ from app import crud, schemas, database
 
 router = APIRouter(prefix="/members", tags=["members"])
 
-@router.get("/", response_model=list[schemas.CarMemberResponse])
+@router.get("/", response_model=[schemas.CarMemberResponse])
 def read_members(skip: int = 0, limit: int = 10, db: Session = Depends(database.get_db)):
     return crud.get_members(db, skip=skip, limit=limit)
 
